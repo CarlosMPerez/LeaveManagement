@@ -1,6 +1,8 @@
 using AutoMapper;
 using LeaveManagement.Web.Configuration;
+using LeaveManagement.Web.Contracts;
 using LeaveManagement.Web.Data;
+using LeaveManagement.Web.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +19,13 @@ builder.Services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireC
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+// builder.Services.AddTransient --> A brand new copy of the service everytime it's requested
+// builder.Services.AddSingleton --> A single instance of this service for the entire application (i.e. logging)
+// builder.Services.AddScoped --> A new instance when requested and then close it when it's done
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<ILeaveTypeRepository, LeaveTypeRepository>();
 
 builder.Services.AddControllersWithViews();
 
