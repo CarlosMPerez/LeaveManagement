@@ -1,0 +1,31 @@
+﻿@model LeaveTypeCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Leave Type</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="DefaultDays" class="control-label"></label>
+                <input asp-for="DefaultDays" class="form-control" />
+                <span asp-validation-for="DefaultDays" class="text-danger"></span>
+            </div>
+            <br/>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-circle-check"></i>&nbsp;Create</button>&nbsp;
+                <a asp-action="Index" class="btn btn-secondary"><i class="fa-solid fa-circle-left"></i>&nbsp;Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
