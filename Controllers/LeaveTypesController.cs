@@ -7,112 +7,111 @@ using LeaveManagement.Web.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using LeaveManagement.Web.Configuration;
 
-namespace LeaveManagement.Web.Controllers
+namespace LeaveManagement.Web.Controllers;
+
+[Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+public class LeaveTypesController : Controller
 {
-    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
-    public class LeaveTypesController : Controller
+    private readonly ILeaveTypeRepository repo;
+    private readonly IMapper mapper;
+
+    public LeaveTypesController(ILeaveTypeRepository repository, IMapper mapper)
     {
-        private readonly ILeaveTypeRepository repo;
-        private readonly IMapper mapper;
+        repo = repository;
+        this.mapper = mapper;
+    }
 
-        public LeaveTypesController(ILeaveTypeRepository repository, IMapper mapper)
+    // GET: LeaveTypes
+    public async Task<IActionResult> Index()
+    {
+        var leaveTypes = mapper.Map<List<LeaveTypeCollectionItemViewModel>>(await repo.GetAllAsync());
+          
+        return leaveTypes != null ? 
+                      View(leaveTypes) :
+                      Problem("Entity set 'LeaveTypes' is null.");
+    }
+
+    // GET: LeaveTypes/Details/5
+    public async Task<IActionResult> Details(int? id)
+    {
+        var leaveType = await repo.GetAsync(id);
+        if (leaveType == null) return NotFound();
+        var leaveTypeVM = mapper.Map<LeaveTypeDetailsViewModel>(leaveType);
+
+        return View(leaveTypeVM);
+    }
+
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+    // GET: LeaveTypes/Create
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    // POST: LeaveTypes/Create
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(LeaveTypeCreateViewModel leaveTypeVM)
+    {
+        if (ModelState.IsValid)
         {
-            repo = repository;
-            this.mapper = mapper;
-        }
-
-        // GET: LeaveTypes
-        public async Task<IActionResult> Index()
-        {
-            var leaveTypes = mapper.Map<List<LeaveTypeCollectionItemViewModel>>(await repo.GetAllAsync());
-              
-            return leaveTypes != null ? 
-                          View(leaveTypes) :
-                          Problem("Entity set 'LeaveTypes' is null.");
-        }
-
-        // GET: LeaveTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            var leaveType = await repo.GetAsync(id);
-            if (leaveType == null) return NotFound();
-            var leaveTypeVM = mapper.Map<LeaveTypeDetailsViewModel>(leaveType);
-
-            return View(leaveTypeVM);
-        }
-
-        [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
-        // GET: LeaveTypes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: LeaveTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(LeaveTypeCreateViewModel leaveTypeVM)
-        {
-            if (ModelState.IsValid)
-            {
-                var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
-                leaveType.CreationDate = DateTime.Now;
-                leaveType.ModificationDate = DateTime.Now;
-                await repo.AddAsync(leaveType);
-                return RedirectToAction(nameof(Index));
-            }
-            
-            return View(leaveTypeVM);
-        }
-
-        // GET: LeaveTypes/Edit/5
-        [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            var leaveType = await repo.GetAsync(id);
-            if (leaveType == null) return NotFound();
-            var leaveTypeVM = mapper.Map<LeaveTypeEditViewModel>(leaveType);
-
-            return View(leaveTypeVM);
-        }
-
-        // POST: LeaveTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, LeaveTypeEditViewModel leaveTypeVM)
-        {
-            if (id != leaveTypeVM.Id) return NotFound();
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
-                    leaveType.ModificationDate = DateTime.Now;
-                    await repo.UpdateAsync(leaveType);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await repo.Exists(leaveTypeVM.Id)) return NotFound();
-                    else throw;
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(leaveTypeVM);
-        }
-
-        // POST: LeaveTypes/Delete/5
-        [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            await repo.DeleteAsync(id);
+            var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
+            leaveType.CreationDate = DateTime.Now;
+            leaveType.ModificationDate = DateTime.Now;
+            await repo.AddAsync(leaveType);
             return RedirectToAction(nameof(Index));
         }
+        
+        return View(leaveTypeVM);
+    }
+
+    // GET: LeaveTypes/Edit/5
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+    public async Task<IActionResult> Edit(int? id)
+    {
+        var leaveType = await repo.GetAsync(id);
+        if (leaveType == null) return NotFound();
+        var leaveTypeVM = mapper.Map<LeaveTypeEditViewModel>(leaveType);
+
+        return View(leaveTypeVM);
+    }
+
+    // POST: LeaveTypes/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, LeaveTypeEditViewModel leaveTypeVM)
+    {
+        if (id != leaveTypeVM.Id) return NotFound();
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
+                leaveType.ModificationDate = DateTime.Now;
+                await repo.UpdateAsync(leaveType);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await repo.Exists(leaveTypeVM.Id)) return NotFound();
+                else throw;
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        return View(leaveTypeVM);
+    }
+
+    // POST: LeaveTypes/Delete/5
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await repo.DeleteAsync(id);
+        return RedirectToAction(nameof(Index));
     }
 }

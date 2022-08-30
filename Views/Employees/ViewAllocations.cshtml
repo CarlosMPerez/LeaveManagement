@@ -1,0 +1,30 @@
+﻿@model LeaveManagement.Web.Models.EmployeeAllocationViewModel
+
+@{
+    ViewData["Title"] = "View Employee Allocations";
+}
+
+<h1>@Model.FirstName @Model.LastName</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h4>Leave Allocations</h4>
+    </div>
+    <ul class="list-group list-group-flush">
+        @foreach (var item in Model.LeaveAllocations)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col"><h6>@item.LeaveType.Name</h6></div>
+                    <div class="col"><span class="lm-notification">Allocated Days <span class="badge bg-secondary">@item.LeaveType.DefaultDays</span></span></div>
+                    <div class="col"><span class="lm-notification">Remaining Days <span class="badge bg-secondary">@item.NumberOfDays</span></span></div>
+                    <div class="col"><a asp-action="EditAllocation" asp-route-id="@item.Id" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i>&nbsp;Edit</a></div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+<br/>
+<div>
+    <a asp-action="Index" class="btn btn-secondary"><i class="fa-solid fa-circle-left"></i>&nbsp;Back to List</a>
+</div>

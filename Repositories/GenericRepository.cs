@@ -36,6 +36,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
+    public async Task AddRangeAsync(List<T> entities)
+    {
+        await context.AddRangeAsync(entities);
+        await context.SaveChangesAsync();
+    }
+
     public async Task UpdateAsync(T entity)
     {
         context.Set<T>().Update(entity);

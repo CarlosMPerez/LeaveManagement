@@ -16,3 +16,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.lm-notification {
+    text-decoration: none;
+    color: #0f5132;
+    background-color: #d1e7dd;
+    padding: 4px 6px 6px 6px;
+    margin: 6px 2px 6px 2px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    border-radius: 8px;
+    border-color: #badbcc;
+}
