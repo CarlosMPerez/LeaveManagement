@@ -1,0 +1,116 @@
+﻿@model LeaveRequestsAdminViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Leave Requests</h3>
+
+<div class="row ">
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title text-primary">@Model.TotalRequests</h4>
+                <p class="card-text">@Html.DisplayNameFor(model => model.TotalRequests)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title text-success">@Model.ApprovedRequests</h4>
+                <p class="card-text">@Html.DisplayNameFor(model => model.ApprovedRequests)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title text-warning">@Model.PendingRequests</h4>
+                <p class="card-text">@Html.DisplayNameFor(model => model.PendingRequests)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title text-danger">@Model.RejectedRequests</h4>
+                <p class="card-text">@Html.DisplayNameFor(model => model.RejectedRequests)</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<br />
+<table class="table tableGrid" width="100%">
+    <thead>
+        <tr>
+            <th width="25%">
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].Employee)
+            </th>
+            <th width="20%">
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].LeaveTypeName)
+            </th>
+            <th width="15%">
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].StartDate)
+            </th>
+            <th width="15%">
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].EndDate)
+            </th>
+            <th width="15%">
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].RequestDate)
+            </th>
+            <th width="5%">
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].Approved)
+            </th>
+            <th width="5%"></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LeaveRequests) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestDate)
+            </td>
+            <td>
+                @if (item.Approved?.ToUpper() == "PENDING")
+                {
+                    <span class="lm-warning">@Html.DisplayFor(modelItem => item.Approved)</span>
+                }
+                else if (item.Approved?.ToUpper() == "APPROVED")
+                {
+                    <span class="lm-notification">@Html.DisplayFor(modelItem => item.Approved)</span>
+                }
+                else // is rejected
+                {
+                    <span class="lm-danger">@Html.DisplayFor(modelItem => item.Approved)</span>
+                }
+            </td>
+            <td>
+                @if(item.Cancelled.ToUpper() == "NO")
+                {
+                    <a asp-action="Details" class="btn btn-primary btn-sm" asp-route-id="@item.Id">Review</a>
+                }
+            </td>
+@*            <td>
+                 |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+*@        </tr>
+}
+    </tbody>
+</table>

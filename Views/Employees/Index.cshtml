@@ -6,7 +6,7 @@
 
 <h1>Employees</h1>
 
-<table class="tableGrid" width="100%">
+<table class="table tableGrid" width="100%">
     <thead>
         <tr>
             <th width="25%">
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.DateJoined)
             </td>
             <td>
-                <a asp-action="ViewAllocations" class="btn btn-info" asp-route-id="@item.Id">
+                <a asp-action="ListAllocations" class="btn btn-info" asp-route-id="@item.Id">
                     <i class="fa-solid fa-circle-info" data-toggle="tooltip" data-placement="top" title="View Allocations"></i>
                 </a>
             </td>

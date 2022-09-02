@@ -23,10 +23,39 @@ body {
     background-color: #d1e7dd;
     padding: 4px 6px 6px 6px;
     margin: 6px 2px 6px 2px;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
-    border-left: 1px solid #CCCCCC;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
     border-radius: 8px;
     border-color: #badbcc;
 }
+
+.lm-warning {
+    text-decoration: none;
+    color: #090909;
+    background-color: #f4af6a;
+    padding: 4px 6px 6px 6px;
+    margin: 6px 2px 6px 2px;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-radius: 8px;
+    border-color: #ed8012;
+}
+
+.lm-danger {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #ff0000;
+    padding: 4px 6px 6px 6px;
+    margin: 6px 2px 6px 2px;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-radius: 8px;
+    border-color: #ff3333;
+}
+

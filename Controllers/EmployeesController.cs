@@ -4,34 +4,34 @@ using LeaveManagement.Web.Contracts;
 using LeaveManagement.Web.Data;
 using LeaveManagement.Web.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using System.Text.Json;
 
 namespace LeaveManagement.Web.Controllers;
 
-[Authorize(Roles = RolesConstants.ADMINISTRATOR)]
 public class EmployeesController : Controller
 {
     private readonly UserManager<Employee> userManager;
     private readonly IMapper mapper;
     private readonly ILeaveAllocationRepository allocRepo;
     private readonly ILeaveTypeRepository leaveTypeRepo;
+    private readonly ILeaveRequestRepository leaveReqRepo;
 
     public EmployeesController(UserManager<Employee> userManager, 
                                 IMapper mapper, 
                                 ILeaveAllocationRepository allocRepo, 
-                                ILeaveTypeRepository leaveTypeRepo)
+                                ILeaveTypeRepository leaveTypeRepo, 
+                                ILeaveRequestRepository leaveReqRepo)
     {
         this.userManager = userManager;
         this.mapper = mapper;
         this.allocRepo = allocRepo;
         this.leaveTypeRepo = leaveTypeRepo;
+        this.leaveReqRepo = leaveReqRepo;
     }
 
     // GET: EmployeesController
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
     public async Task<IActionResult> Index()
     {
         var employees = await userManager.GetUsersInRoleAsync(RolesConstants.USER);
@@ -39,47 +39,38 @@ public class EmployeesController : Controller
         return View(model);
     }
 
-    // GET: EmployeesController/ViewAllocations/"guid"
-    public async Task<ActionResult> ViewAllocations(string id)
+    // GET: EmployeesController/ListAllocations/"guid"
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+    public async Task<ActionResult> ListAllocations(string id)
     {
-        var employee = await userManager.FindByIdAsync(id);
-        var empAlloc = mapper.Map<EmployeeAllocationViewModel>(employee);
-        empAlloc.LeaveAllocations = mapper.Map<List<LeaveAllocationCollectionItemViewModel>>(await allocRepo.GetEmployeeAllocations(id));
-
+        var empAlloc = await allocRepo.GetAllocationsForEmployee(id);
         return View(empAlloc);
     }
 
     // GET: EmployeesController/EditAllocation/5
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
     public async Task<IActionResult> EditAllocation(int id)
     {
-        var alloc = await allocRepo.GetAsync(id);
-        if (alloc == null) return NotFound();
-        var allocVM = mapper.Map<LeaveAllocationEditViewModel>(alloc);
-        // compose object
-        allocVM.Employee = mapper.Map<EmployeeCollectionItemViewModel>(await userManager.FindByIdAsync(alloc.EmployeeId));
-        allocVM.LeaveType = mapper.Map<LeaveTypeCollectionItemViewModel>(await leaveTypeRepo.GetAsync(alloc.LeaveTypeId));
+        var allocVM = await allocRepo.GetAllocation(id);
+        if (allocVM == null) return NotFound();
 
         return View(allocVM);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditAllocation(int id, LeaveAllocationEditViewModel model)
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+    public async Task<IActionResult> EditAllocation(LeaveAllocationEditViewModel model)
     {
+        // Stateless, so I have to re-get 
+        model.Employee = mapper.Map<EmployeeEditViewModel>(await userManager.FindByIdAsync(model.EmployeeId));
+        model.LeaveType = mapper.Map<LeaveTypeEditViewModel>(await leaveTypeRepo.GetAsync(model.LeaveTypeId));
+
         try
         {
-            // Instead of simply saving EmployeeId and LeaveTypeId in the hidden fields of the form and 
-            // and having to re-query the server for them each server trip, we have saved them in the hidden input
-            // as serialized versions of them, and then deserialize them here
-            model.Employee = JsonSerializer.Deserialize<EmployeeCollectionItemViewModel>(model.EmployeeSerialized);
-            model.LeaveType = JsonSerializer.Deserialize<LeaveTypeCollectionItemViewModel>(model.LeaveTypeSerialized);
-            
-            ModelState.Remove("Employee");
-            ModelState.Remove("LeaveType");
-
             if (ModelState.IsValid)
             {
-                var leaveAlloc = await allocRepo.GetAsync(id);
+                var leaveAlloc = await allocRepo.GetAsync(model.Id);
                 if (leaveAlloc == null) return NotFound();
 
                 leaveAlloc.Period = model.Period;
@@ -88,7 +79,7 @@ public class EmployeesController : Controller
 
                 await allocRepo.UpdateAsync(leaveAlloc);
 
-                return RedirectToAction(nameof(ViewAllocations), new { id = model.Employee.Id });
+                return RedirectToAction(nameof(ListAllocations), new { id = model.Employee.Id });
             }
         }
         catch(Exception ex)
@@ -98,4 +89,23 @@ public class EmployeesController : Controller
 
         return View(model);
     }
+
+    [Authorize(Roles = RolesConstants.USER)]
+    public async Task<IActionResult> ListRequests()
+    {
+        var model = await leaveReqRepo.GetCurrentUserLeaveRequestsDetails();
+        return View(model);
+    }
+
+    public async Task<IActionResult> CancelLeaveRequest(int id)
+    {
+        var model = await leaveReqRepo.GetSimpleLeaveRequestAsync(id);
+        model.Cancelled = true;
+        await leaveReqRepo.UpdateAsync(model);
+
+
+        var returnModel = await leaveReqRepo.GetCurrentUserLeaveRequestsDetails();
+        return View(nameof(ListRequests), returnModel);
+    }
+
 }

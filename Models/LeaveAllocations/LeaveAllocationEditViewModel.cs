@@ -1,15 +1,10 @@
-﻿using LeaveManagement.Web.Data;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace LeaveManagement.Web.Models;
 
 public class LeaveAllocationEditViewModel
 {
-    LeaveTypeCollectionItemViewModel _leave;
-    EmployeeCollectionItemViewModel _employee;
-
     [Required]
     public int Id { get; set; }
 
@@ -22,31 +17,11 @@ public class LeaveAllocationEditViewModel
     [Display(Name ="Allocation Period")]
     public int Period { get; set; }
 
-    public LeaveTypeCollectionItemViewModel LeaveType 
-    { 
-        get { return _leave; } 
-        
-        set 
-        {
-            _leave = value;
-            this.LeaveTypeSerialized = JsonSerializer.Serialize(_leave); 
-        } 
-    }
+    public int LeaveTypeId { get; set; }
 
-    public EmployeeCollectionItemViewModel Employee 
-    { 
-        get { return _employee;  }
-        set
-        {
-            _employee = value;
-            this.EmployeeSerialized = JsonSerializer.Serialize(_employee);
-        }
-    }
+    public LeaveTypeEditViewModel? LeaveType { get; set; }
 
-    public string EmployeeSerialized { get; set; }
-    public string LeaveTypeSerialized { get; set; }
+    public string EmployeeId { get; set; }
 
-    //public DateTime CreationDate { get; set; }
-    //public DateTime ModificationDate { get; set; }
-
+    public EmployeeEditViewModel? Employee { get; set; }
 }

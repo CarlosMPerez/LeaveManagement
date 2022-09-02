@@ -5,5 +5,9 @@
 $(function () {
     $('.tableGrid').DataTable({
         ordering: false
-    }); // Each <table class="tableGrid"> will be a datatable
+    }); // Each <table class="tableGrid"> will be a datatable (custom CSS selector)
+
+    $(".dateSelector").datepicker({
+        dateFormat: "dd/mm/yy"
+    }); // Each <input class="dateSelector"> will be a datepicker (custom CSS selector)
 })
