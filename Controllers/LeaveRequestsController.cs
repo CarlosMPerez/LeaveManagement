@@ -7,10 +7,11 @@ using LeaveManagement.Web.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using LeaveManagement.Web.Configuration;
 using LeaveManagement.Web.CustomExceptions;
+using Microsoft.AspNetCore.Identity;
+using static Humanizer.In;
 
 namespace LeaveManagement.Web.Controllers
 {
-    [Authorize(Roles = RolesConstants.USER)]
     public class LeaveRequestsController : Controller
     {
         private readonly ApplicationDbContext ctx;
@@ -23,6 +24,7 @@ namespace LeaveManagement.Web.Controllers
         }
 
         // GET: LeaveRequests
+
         [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
         public async Task<IActionResult> Index()
         {
@@ -83,6 +85,14 @@ namespace LeaveManagement.Web.Controllers
                 }
             }
             catch (LeaveRequestExcessDaysException ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
+            }
+            catch (NoLeaveAllocationForUserException ex)
+            {
+                ModelState.AddModelError(String.Empty, ex.Message);
+            }
+            catch (TotalLeaveRequestTimeExceedsAllocationException ex)
             {
                 ModelState.AddModelError(String.Empty, ex.Message);
             }

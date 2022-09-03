@@ -13,10 +13,6 @@ public class LeaveAllocationEditViewModel
     [Range(1, 50, ErrorMessage = "Invalid number entered")]
     public int NumberOfDays { get; set; }
 
-    [Required]
-    [Display(Name ="Allocation Period")]
-    public int Period { get; set; }
-
     public int LeaveTypeId { get; set; }
 
     public LeaveTypeEditViewModel? LeaveType { get; set; }

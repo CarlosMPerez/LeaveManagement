@@ -73,7 +73,6 @@ public class EmployeesController : Controller
                 var leaveAlloc = await allocRepo.GetAsync(model.Id);
                 if (leaveAlloc == null) return NotFound();
 
-                leaveAlloc.Period = model.Period;
                 leaveAlloc.NumberOfDays = model.NumberOfDays;
                 leaveAlloc.ModificationDate = DateTime.Now;
 
@@ -90,6 +89,13 @@ public class EmployeesController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = RolesConstants.ADMINISTRATOR)]
+    public async Task<IActionResult> RemoveAllocation(string employeeId, int id)
+    {
+        await allocRepo.DeleteAsync(id);
+        return RedirectToAction(nameof(ListAllocations), new { id = employeeId });
+    }
+
     [Authorize(Roles = RolesConstants.USER)]
     public async Task<IActionResult> ListRequests()
     {
@@ -97,6 +103,7 @@ public class EmployeesController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = RolesConstants.USER)]
     public async Task<IActionResult> CancelLeaveRequest(int id)
     {
         var model = await leaveReqRepo.GetSimpleLeaveRequestAsync(id);

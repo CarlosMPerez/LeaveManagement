@@ -7,11 +7,13 @@ public interface ILeaveAllocationRepository : IGenericRepository<LeaveAllocation
 {
     Task AllocateLeaveToAllEmployees(int leaveTypeId);
 
-    Task<bool> AllocationExists(string employeeId, int leaveTypeId, int period);
+    Task<bool> AllocationExists(string employeeId, int leaveTypeId);
 
     Task<EmployeeAllocationViewModel> GetAllocationsForEmployee(string employeeId);
 
     Task<LeaveAllocationEditViewModel?> GetAllocation(int allocationId);
 
-    Task<LeaveAllocationEditViewModel?> GetAllocation(string employeeId, int leaveTypeId);
+    Task<LeaveAllocation?> GetAllocation(string employeeId, int leaveTypeId);
+
+    Task<LeaveAllocation?> GetSingleAllocation(string employeeId, int leaveAllocationId);
 }
