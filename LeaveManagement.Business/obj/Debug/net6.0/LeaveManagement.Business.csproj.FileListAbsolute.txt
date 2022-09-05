@@ -1,0 +1,17 @@
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.csproj.AssemblyReference.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.GeneratedMSBuildEditorConfig.editorconfig
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.AssemblyInfoInputs.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.AssemblyInfo.cs
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.csproj.CoreCompileInputs.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Business.deps.json
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Business.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Business.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Common.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Data.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Common.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\bin\Debug\net6.0\LeaveManagement.Data.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.csproj.CopyComplete
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\refint\LeaveManagement.Business.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\LeaveManagement.Business.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Business\obj\Debug\net6.0\ref\LeaveManagement.Business.dll

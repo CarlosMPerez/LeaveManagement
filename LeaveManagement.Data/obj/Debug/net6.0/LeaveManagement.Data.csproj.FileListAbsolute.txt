@@ -1,0 +1,17 @@
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.csproj.AssemblyReference.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.AssemblyInfoInputs.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.AssemblyInfo.cs
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.csproj.CoreCompileInputs.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\bin\Debug\net6.0\LeaveManagement.Data.deps.json
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\bin\Debug\net6.0\LeaveManagement.Data.runtimeconfig.json
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\bin\Debug\net6.0\LeaveManagement.Data.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\bin\Debug\net6.0\LeaveManagement.Data.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\refint\LeaveManagement.Data.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.genruntimeconfig.cache
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\ref\LeaveManagement.Data.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\bin\Debug\net6.0\LeaveManagement.Common.dll
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\bin\Debug\net6.0\LeaveManagement.Common.pdb
+D:\work\Learning\ASP.NET Core MVC\LeaveManagement.Data\obj\Debug\net6.0\LeaveManagement.Data.csproj.CopyComplete
