@@ -23,6 +23,24 @@ namespace LeaveManagement.Web.Data
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
         }
 
+        /// <summary>
+        /// Automate DATE TRACKING
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach(var entry in base.ChangeTracker.Entries<BaseEntity>()
+                                        .Where(x => x.State == EntityState.Added || x.State == EntityState.Modified))
+            {
+                if (entry.State == EntityState.Added)
+                    entry.Entity.CreationDate = DateTime.Now;
+                else 
+                    entry.Entity.ModificationDate = DateTime.Now;
+            }
+            return base.SaveChangesAsync(cancellationToken);
+        }
+
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
 

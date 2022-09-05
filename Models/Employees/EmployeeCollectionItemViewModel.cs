@@ -18,5 +18,7 @@ public class EmployeeCollectionItemViewModel
     public string Email { get; set; }
 
     [Display(Name = "Joined")]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+    [DataType(DataType.Date)]
     public string DateJoined { get; set; }
 }

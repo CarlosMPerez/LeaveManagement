@@ -58,8 +58,6 @@ public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveReq
 
         // If everything's alright
         var leaveRequest = mapper.Map<LeaveRequest>(model);
-        leaveRequest.CreationDate = DateTime.Now;
-        leaveRequest.ModificationDate = DateTime.Now;
         leaveRequest.RequestDate = DateTime.Now;
         leaveRequest.EmployeeId = user.Id;
         leaveRequest.TotalLeaveDays = (int)(model.EndDate - model.StartDate).Value.TotalDays;
@@ -115,12 +113,10 @@ public class LeaveRequestRepository : GenericRepository<LeaveRequest>, ILeaveReq
         {
             var leaveRequest = await GetAsync(leaveRequestId);
             leaveRequest.Approved = approved;
-            leaveRequest.ModificationDate = DateTime.Now;
             if (approved)
             {
                 var alloc = await allocRepo.GetAllocation(leaveRequest.EmployeeId, leaveRequest.LeaveTypeId);
                 alloc.NumberOfDays -= (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
-                alloc.ModificationDate = DateTime.Now;
                 await allocRepo.UpdateAsync(alloc);
             }
 

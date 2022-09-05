@@ -7,19 +7,23 @@ public class LeaveRequestCreateViewModel : IValidatableObject
 {
     [Display(Name="Starting Date")]
     [Required]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+    [DataType(DataType.Date)]
     public DateTime? StartDate { get; set; }
 
     [Display(Name = "End Date")]
     [Required]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy")]
+    [DataType(DataType.Date)]
     public DateTime? EndDate { get; set; }
 
     [Display(Name = "Comments")]
     public string? RequestComments { get; set; }
 
-    [Display(Name = "Leave Type")]
     public SelectList? LeaveTypes { get; set; }
 
     [Required]
+    [Display(Name = "Leave Type")]
     public int LeaveTypeId { get; set; }
 
     /// <summary>

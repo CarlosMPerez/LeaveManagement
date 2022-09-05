@@ -74,7 +74,6 @@ public class EmployeesController : Controller
                 if (leaveAlloc == null) return NotFound();
 
                 leaveAlloc.NumberOfDays = model.NumberOfDays;
-                leaveAlloc.ModificationDate = DateTime.Now;
 
                 await allocRepo.UpdateAsync(leaveAlloc);
 

@@ -58,8 +58,6 @@ public class LeaveTypesController : Controller
         if (ModelState.IsValid)
         {
             var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
-            leaveType.CreationDate = DateTime.Now;
-            leaveType.ModificationDate = DateTime.Now;
             await repo.AddAsync(leaveType);
             return RedirectToAction(nameof(Index));
         }
@@ -91,8 +89,9 @@ public class LeaveTypesController : Controller
         {
             try
             {
-                var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
-                leaveType.ModificationDate = DateTime.Now;
+                var leaveType = await repo.GetAsync(id);
+                if (leaveType == null) return NotFound();
+                mapper.Map(leaveTypeVM, leaveType);
                 await repo.UpdateAsync(leaveType);
             }
             catch (DbUpdateConcurrencyException)
